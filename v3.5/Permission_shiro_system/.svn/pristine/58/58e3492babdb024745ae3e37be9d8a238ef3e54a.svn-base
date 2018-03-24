@@ -1,0 +1,4 @@
+#Thu Apr 06 15:55:51 CST 2017
+eclipse.preferences.version=1
+validator.Checked=WebRoot/fckeditor/editor,WebRoot/js,WebRoot/temp,WebRoot/easyui
+validator.Unchecked=

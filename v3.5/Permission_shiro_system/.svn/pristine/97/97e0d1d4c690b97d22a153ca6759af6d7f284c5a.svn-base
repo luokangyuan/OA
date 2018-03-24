@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tag.jsp"%>
+<html>
+<head>
+<TITLE>基于细粒度权限控制的文件管理系统</TITLE>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<LINK rel="stylesheet" type="text/css" href="${baseurl}styles/style.css">
+<LINK rel="stylesheet" type="text/css" href="${baseurl}styles/login.css">
+<LINK rel="stylesheet" type="text/css"	href="${baseurl}js/easyui/themes/default/easyui.css">
+<LINK rel="stylesheet" type="text/css"	href="${baseurl}js/easyui/themes/icon.css">
+
+<STYLE type="text/css">
+.btnalink {
+	cursor: hand;
+	display: block;
+	width: 80px;
+	height: 29px;
+	float: left;
+	margin: 12px 28px 12px auto;
+	line-height: 30px;
+	background: url('${baseurl}images/login/btnbg.jpg') no-repeat;
+	font-size: 14px;
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+}
+</STYLE>
+<%@ include file="/WEB-INF/jsp/common_js.jsp"%>
+
+<script type="text/javascript">
+
+	//登录提示方法
+	function loginsubmit() {
+		$("#loginform").submit();
+
+	}
+	
+</SCRIPT>
+</HEAD>
+<BODY style="background: #f6fdff url(${baseurl}images/login/bg1.jpg) no-repeat;background-size:100% 100%">
+	<FORM id="loginform" name="loginform" action="${baseurl}login.action"
+		method="post">
+		<DIV class="logincon">
+
+			<DIV class="title">
+				
+			</DIV>
+
+			<DIV class="cen_con">
+				<IMG alt="" src="${baseurl}images/login/bg2.png">
+			</DIV>
+
+			<DIV class="tab_con">
+
+				<input type="password" style="display:none;" />
+				<TABLE class="tab" border="0" cellSpacing="6" cellPadding="8">
+					<TBODY class="my_table">
+						<TR>
+							<TD style="font-size:20px;">用户名：</TD>
+							<TD colSpan="2"><input type="text" id="usercode"
+								name="username" style="WIDTH: 150px;height:30px" /></TD>
+						</TR>
+						<TR>
+							<TD style="font-size:20px;">密&nbsp;&nbsp;&nbsp;码：</TD>
+							<TD><input type="password" id="pwd" name="password" style="WIDTH: 150px;height:30px" />
+							</TD>
+						</TR>
+						<TR>
+							<TD style="font-size:20px;">验证码：</TD>
+							<TD><input id="randomcode" name="randomcode" size="8" /> <img
+								id="randomcode_img" src="${baseurl}validatecode.jsp" alt=""
+								width="73" height="30" align='absMiddle' /> <a
+								href=javascript:randomcode_refresh()>刷新</a></TD>
+						</TR>
+						<tr>
+							<TD></TD>
+							<td><input type="checkbox" name="rememberMe" />自动登陆</td>
+						</tr>
+
+						<TR>
+							<TD colSpan="2" align="center">
+								<input style="background:#3987D8" type="button"class="btnalink" onclick="loginsubmit()" value="登&nbsp;&nbsp;录" />
+								<input style="background:#3987D8" type="reset" class="btnalink" value="重&nbsp;&nbsp;置" /></TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+
+			</DIV>
+		</DIV>
+	</FORM>
+	<script type="text/javascript">
+	 function randomcode_refresh(){
+    var img = document.getElementById("randomcode_img");
+	img.src = "<%=request.getContextPath() %>/validatecode.jsp?a="+new Date().getTime();
+    }
+	</script>
+</BODY>
+</HTML>

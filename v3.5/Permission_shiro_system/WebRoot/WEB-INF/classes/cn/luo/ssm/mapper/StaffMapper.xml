@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.luo.ssm.mapper.StaffMapper" >
+  <resultMap id="BaseResultMap" type="cn.luo.ssm.po.Staff" >
+    <id column="staId" property="staid" jdbcType="INTEGER" />
+    <result column="deptId" property="deptid" jdbcType="INTEGER" />
+    <result column="jobId" property="jobid" jdbcType="INTEGER" />
+    <result column="staNumber" property="stanumber" jdbcType="VARCHAR" />
+    <result column="staUserCode" property="stausercode" jdbcType="VARCHAR" />
+    <result column="staPassword" property="stapassword" jdbcType="VARCHAR" />
+    <result column="staName" property="staname" jdbcType="VARCHAR" />
+    <result column="staTel" property="statel" jdbcType="VARCHAR" />
+    <result column="staEmail" property="staemail" jdbcType="VARCHAR" />
+    <result column="staPol" property="stapol" jdbcType="VARCHAR" />
+    <result column="staEntryTime" property="staentrytime" jdbcType="DATE" />
+    <result column="staSex" property="stasex" jdbcType="VARCHAR" />
+    <result column="staHeadImage" property="staheadimage" jdbcType="VARCHAR" />
+    <result column="staType" property="statype" jdbcType="VARCHAR" />
+    <result column="staAddress" property="staaddress" jdbcType="VARCHAR" />
+    <result column="staRemark" property="staremark" jdbcType="VARCHAR" />
+    <result column="staBirthday" property="stabirthday" jdbcType="DATE" />
+    <result column="staIdcard" property="staidcard" jdbcType="VARCHAR" />
+    <result column="staEnduce" property="staenduce" jdbcType="VARCHAR" />
+    <result column="staHabit" property="stahabit" jdbcType="VARCHAR" />
+    <result column="staMajor" property="stamajor" jdbcType="VARCHAR" />
+    <result column="staMarry" property="stamarry" jdbcType="VARCHAR" />
+    <result column="staAge" property="staage" jdbcType="VARCHAR" />
+    <result column="staEducation" property="staeducation" jdbcType="VARCHAR" />
+    <result column="staComputer" property="stacomputer" jdbcType="VARCHAR" />
+    <result column="staEnglish" property="staenglish" jdbcType="VARCHAR" />
+    <result column="staWorker" property="staworker" jdbcType="VARCHAR" />
+    <result column="staBankNumber" property="stabanknumber" jdbcType="VARCHAR" />
+    <result column="staQqNumber" property="staqqnumber" jdbcType="VARCHAR" />
+    <result column="staPostNumber" property="stapostnumber" jdbcType="VARCHAR" />
+    <result column="staCharge" property="stacharge" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="locked" property="locked" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    staId, deptId, jobId, staNumber, staUserCode, staPassword, staName, staTel, staEmail, 
+    staPol, staEntryTime, staSex, staHeadImage, staType, staAddress, staRemark, staBirthday, 
+    staIdcard, staEnduce, staHabit, staMajor, staMarry, staAge, staEducation, staComputer, 
+    staEnglish, staWorker, staBankNumber, staQqNumber, staPostNumber, staCharge, salt, 
+    locked
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.luo.ssm.po.StaffExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from staff
+    where staId = #{staid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from staff
+    where staId = #{staid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.luo.ssm.po.StaffExample" >
+    delete from staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.luo.ssm.po.Staff" >
+    insert into staff (staId, deptId, jobId, 
+      staNumber, staUserCode, staPassword, 
+      staName, staTel, staEmail, 
+      staPol, staEntryTime, staSex, 
+      staHeadImage, staType, staAddress, 
+      staRemark, staBirthday, staIdcard, 
+      staEnduce, staHabit, staMajor, 
+      staMarry, staAge, staEducation, 
+      staComputer, staEnglish, staWorker, 
+      staBankNumber, staQqNumber, staPostNumber, 
+      staCharge, salt, locked
+      )
+    values (#{staid,jdbcType=INTEGER}, #{deptid,jdbcType=INTEGER}, #{jobid,jdbcType=INTEGER}, 
+      #{stanumber,jdbcType=VARCHAR}, #{stausercode,jdbcType=VARCHAR}, #{stapassword,jdbcType=VARCHAR}, 
+      #{staname,jdbcType=VARCHAR}, #{statel,jdbcType=VARCHAR}, #{staemail,jdbcType=VARCHAR}, 
+      #{stapol,jdbcType=VARCHAR}, #{staentrytime,jdbcType=DATE}, #{stasex,jdbcType=VARCHAR}, 
+      #{staheadimage,jdbcType=VARCHAR}, #{statype,jdbcType=VARCHAR}, #{staaddress,jdbcType=VARCHAR}, 
+      #{staremark,jdbcType=VARCHAR}, #{stabirthday,jdbcType=DATE}, #{staidcard,jdbcType=VARCHAR}, 
+      #{staenduce,jdbcType=VARCHAR}, #{stahabit,jdbcType=VARCHAR}, #{stamajor,jdbcType=VARCHAR}, 
+      #{stamarry,jdbcType=VARCHAR}, #{staage,jdbcType=VARCHAR}, #{staeducation,jdbcType=VARCHAR}, 
+      #{stacomputer,jdbcType=VARCHAR}, #{staenglish,jdbcType=VARCHAR}, #{staworker,jdbcType=VARCHAR}, 
+      #{stabanknumber,jdbcType=VARCHAR}, #{staqqnumber,jdbcType=VARCHAR}, #{stapostnumber,jdbcType=VARCHAR}, 
+      #{stacharge,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{locked,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.luo.ssm.po.Staff" >
+    insert into staff
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="staid != null" >
+        staId,
+      </if>
+      <if test="deptid != null" >
+        deptId,
+      </if>
+      <if test="jobid != null" >
+        jobId,
+      </if>
+      <if test="stanumber != null" >
+        staNumber,
+      </if>
+      <if test="stausercode != null" >
+        staUserCode,
+      </if>
+      <if test="stapassword != null" >
+        staPassword,
+      </if>
+      <if test="staname != null" >
+        staName,
+      </if>
+      <if test="statel != null" >
+        staTel,
+      </if>
+      <if test="staemail != null" >
+        staEmail,
+      </if>
+      <if test="stapol != null" >
+        staPol,
+      </if>
+      <if test="staentrytime != null" >
+        staEntryTime,
+      </if>
+      <if test="stasex != null" >
+        staSex,
+      </if>
+      <if test="staheadimage != null" >
+        staHeadImage,
+      </if>
+      <if test="statype != null" >
+        staType,
+      </if>
+      <if test="staaddress != null" >
+        staAddress,
+      </if>
+      <if test="staremark != null" >
+        staRemark,
+      </if>
+      <if test="stabirthday != null" >
+        staBirthday,
+      </if>
+      <if test="staidcard != null" >
+        staIdcard,
+      </if>
+      <if test="staenduce != null" >
+        staEnduce,
+      </if>
+      <if test="stahabit != null" >
+        staHabit,
+      </if>
+      <if test="stamajor != null" >
+        staMajor,
+      </if>
+      <if test="stamarry != null" >
+        staMarry,
+      </if>
+      <if test="staage != null" >
+        staAge,
+      </if>
+      <if test="staeducation != null" >
+        staEducation,
+      </if>
+      <if test="stacomputer != null" >
+        staComputer,
+      </if>
+      <if test="staenglish != null" >
+        staEnglish,
+      </if>
+      <if test="staworker != null" >
+        staWorker,
+      </if>
+      <if test="stabanknumber != null" >
+        staBankNumber,
+      </if>
+      <if test="staqqnumber != null" >
+        staQqNumber,
+      </if>
+      <if test="stapostnumber != null" >
+        staPostNumber,
+      </if>
+      <if test="stacharge != null" >
+        staCharge,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="locked != null" >
+        locked,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="staid != null" >
+        #{staid,jdbcType=INTEGER},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="jobid != null" >
+        #{jobid,jdbcType=INTEGER},
+      </if>
+      <if test="stanumber != null" >
+        #{stanumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stausercode != null" >
+        #{stausercode,jdbcType=VARCHAR},
+      </if>
+      <if test="stapassword != null" >
+        #{stapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="staname != null" >
+        #{staname,jdbcType=VARCHAR},
+      </if>
+      <if test="statel != null" >
+        #{statel,jdbcType=VARCHAR},
+      </if>
+      <if test="staemail != null" >
+        #{staemail,jdbcType=VARCHAR},
+      </if>
+      <if test="stapol != null" >
+        #{stapol,jdbcType=VARCHAR},
+      </if>
+      <if test="staentrytime != null" >
+        #{staentrytime,jdbcType=DATE},
+      </if>
+      <if test="stasex != null" >
+        #{stasex,jdbcType=VARCHAR},
+      </if>
+      <if test="staheadimage != null" >
+        #{staheadimage,jdbcType=VARCHAR},
+      </if>
+      <if test="statype != null" >
+        #{statype,jdbcType=VARCHAR},
+      </if>
+      <if test="staaddress != null" >
+        #{staaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="staremark != null" >
+        #{staremark,jdbcType=VARCHAR},
+      </if>
+      <if test="stabirthday != null" >
+        #{stabirthday,jdbcType=DATE},
+      </if>
+      <if test="staidcard != null" >
+        #{staidcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staenduce != null" >
+        #{staenduce,jdbcType=VARCHAR},
+      </if>
+      <if test="stahabit != null" >
+        #{stahabit,jdbcType=VARCHAR},
+      </if>
+      <if test="stamajor != null" >
+        #{stamajor,jdbcType=VARCHAR},
+      </if>
+      <if test="stamarry != null" >
+        #{stamarry,jdbcType=VARCHAR},
+      </if>
+      <if test="staage != null" >
+        #{staage,jdbcType=VARCHAR},
+      </if>
+      <if test="staeducation != null" >
+        #{staeducation,jdbcType=VARCHAR},
+      </if>
+      <if test="stacomputer != null" >
+        #{stacomputer,jdbcType=VARCHAR},
+      </if>
+      <if test="staenglish != null" >
+        #{staenglish,jdbcType=VARCHAR},
+      </if>
+      <if test="staworker != null" >
+        #{staworker,jdbcType=VARCHAR},
+      </if>
+      <if test="stabanknumber != null" >
+        #{stabanknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="staqqnumber != null" >
+        #{staqqnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stapostnumber != null" >
+        #{stapostnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stacharge != null" >
+        #{stacharge,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.luo.ssm.po.StaffExample" resultType="java.lang.Integer" >
+    select count(*) from staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update staff
+    <set >
+      <if test="record.staid != null" >
+        staId = #{record.staid,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptid != null" >
+        deptId = #{record.deptid,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobid != null" >
+        jobId = #{record.jobid,jdbcType=INTEGER},
+      </if>
+      <if test="record.stanumber != null" >
+        staNumber = #{record.stanumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stausercode != null" >
+        staUserCode = #{record.stausercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stapassword != null" >
+        staPassword = #{record.stapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staname != null" >
+        staName = #{record.staname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statel != null" >
+        staTel = #{record.statel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staemail != null" >
+        staEmail = #{record.staemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stapol != null" >
+        staPol = #{record.stapol,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staentrytime != null" >
+        staEntryTime = #{record.staentrytime,jdbcType=DATE},
+      </if>
+      <if test="record.stasex != null" >
+        staSex = #{record.stasex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staheadimage != null" >
+        staHeadImage = #{record.staheadimage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statype != null" >
+        staType = #{record.statype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staaddress != null" >
+        staAddress = #{record.staaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staremark != null" >
+        staRemark = #{record.staremark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stabirthday != null" >
+        staBirthday = #{record.stabirthday,jdbcType=DATE},
+      </if>
+      <if test="record.staidcard != null" >
+        staIdcard = #{record.staidcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staenduce != null" >
+        staEnduce = #{record.staenduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stahabit != null" >
+        staHabit = #{record.stahabit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stamajor != null" >
+        staMajor = #{record.stamajor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stamarry != null" >
+        staMarry = #{record.stamarry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staage != null" >
+        staAge = #{record.staage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staeducation != null" >
+        staEducation = #{record.staeducation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stacomputer != null" >
+        staComputer = #{record.stacomputer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staenglish != null" >
+        staEnglish = #{record.staenglish,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staworker != null" >
+        staWorker = #{record.staworker,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stabanknumber != null" >
+        staBankNumber = #{record.stabanknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staqqnumber != null" >
+        staQqNumber = #{record.staqqnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stapostnumber != null" >
+        staPostNumber = #{record.stapostnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stacharge != null" >
+        staCharge = #{record.stacharge,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salt != null" >
+        salt = #{record.salt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locked != null" >
+        locked = #{record.locked,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update staff
+    set staId = #{record.staid,jdbcType=INTEGER},
+      deptId = #{record.deptid,jdbcType=INTEGER},
+      jobId = #{record.jobid,jdbcType=INTEGER},
+      staNumber = #{record.stanumber,jdbcType=VARCHAR},
+      staUserCode = #{record.stausercode,jdbcType=VARCHAR},
+      staPassword = #{record.stapassword,jdbcType=VARCHAR},
+      staName = #{record.staname,jdbcType=VARCHAR},
+      staTel = #{record.statel,jdbcType=VARCHAR},
+      staEmail = #{record.staemail,jdbcType=VARCHAR},
+      staPol = #{record.stapol,jdbcType=VARCHAR},
+      staEntryTime = #{record.staentrytime,jdbcType=DATE},
+      staSex = #{record.stasex,jdbcType=VARCHAR},
+      staHeadImage = #{record.staheadimage,jdbcType=VARCHAR},
+      staType = #{record.statype,jdbcType=VARCHAR},
+      staAddress = #{record.staaddress,jdbcType=VARCHAR},
+      staRemark = #{record.staremark,jdbcType=VARCHAR},
+      staBirthday = #{record.stabirthday,jdbcType=DATE},
+      staIdcard = #{record.staidcard,jdbcType=VARCHAR},
+      staEnduce = #{record.staenduce,jdbcType=VARCHAR},
+      staHabit = #{record.stahabit,jdbcType=VARCHAR},
+      staMajor = #{record.stamajor,jdbcType=VARCHAR},
+      staMarry = #{record.stamarry,jdbcType=VARCHAR},
+      staAge = #{record.staage,jdbcType=VARCHAR},
+      staEducation = #{record.staeducation,jdbcType=VARCHAR},
+      staComputer = #{record.stacomputer,jdbcType=VARCHAR},
+      staEnglish = #{record.staenglish,jdbcType=VARCHAR},
+      staWorker = #{record.staworker,jdbcType=VARCHAR},
+      staBankNumber = #{record.stabanknumber,jdbcType=VARCHAR},
+      staQqNumber = #{record.staqqnumber,jdbcType=VARCHAR},
+      staPostNumber = #{record.stapostnumber,jdbcType=VARCHAR},
+      staCharge = #{record.stacharge,jdbcType=VARCHAR},
+      salt = #{record.salt,jdbcType=VARCHAR},
+      locked = #{record.locked,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.luo.ssm.po.Staff" >
+    update staff
+    <set >
+      <if test="deptid != null" >
+        deptId = #{deptid,jdbcType=INTEGER},
+      </if>
+      <if test="jobid != null" >
+        jobId = #{jobid,jdbcType=INTEGER},
+      </if>
+      <if test="stanumber != null" >
+        staNumber = #{stanumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stausercode != null" >
+        staUserCode = #{stausercode,jdbcType=VARCHAR},
+      </if>
+      <if test="stapassword != null" >
+        staPassword = #{stapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="staname != null" >
+        staName = #{staname,jdbcType=VARCHAR},
+      </if>
+      <if test="statel != null" >
+        staTel = #{statel,jdbcType=VARCHAR},
+      </if>
+      <if test="staemail != null" >
+        staEmail = #{staemail,jdbcType=VARCHAR},
+      </if>
+      <if test="stapol != null" >
+        staPol = #{stapol,jdbcType=VARCHAR},
+      </if>
+      <if test="staentrytime != null" >
+        staEntryTime = #{staentrytime,jdbcType=DATE},
+      </if>
+      <if test="stasex != null" >
+        staSex = #{stasex,jdbcType=VARCHAR},
+      </if>
+      <if test="staheadimage != null" >
+        staHeadImage = #{staheadimage,jdbcType=VARCHAR},
+      </if>
+      <if test="statype != null" >
+        staType = #{statype,jdbcType=VARCHAR},
+      </if>
+      <if test="staaddress != null" >
+        staAddress = #{staaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="staremark != null" >
+        staRemark = #{staremark,jdbcType=VARCHAR},
+      </if>
+      <if test="stabirthday != null" >
+        staBirthday = #{stabirthday,jdbcType=DATE},
+      </if>
+      <if test="staidcard != null" >
+        staIdcard = #{staidcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staenduce != null" >
+        staEnduce = #{staenduce,jdbcType=VARCHAR},
+      </if>
+      <if test="stahabit != null" >
+        staHabit = #{stahabit,jdbcType=VARCHAR},
+      </if>
+      <if test="stamajor != null" >
+        staMajor = #{stamajor,jdbcType=VARCHAR},
+      </if>
+      <if test="stamarry != null" >
+        staMarry = #{stamarry,jdbcType=VARCHAR},
+      </if>
+      <if test="staage != null" >
+        staAge = #{staage,jdbcType=VARCHAR},
+      </if>
+      <if test="staeducation != null" >
+        staEducation = #{staeducation,jdbcType=VARCHAR},
+      </if>
+      <if test="stacomputer != null" >
+        staComputer = #{stacomputer,jdbcType=VARCHAR},
+      </if>
+      <if test="staenglish != null" >
+        staEnglish = #{staenglish,jdbcType=VARCHAR},
+      </if>
+      <if test="staworker != null" >
+        staWorker = #{staworker,jdbcType=VARCHAR},
+      </if>
+      <if test="stabanknumber != null" >
+        staBankNumber = #{stabanknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="staqqnumber != null" >
+        staQqNumber = #{staqqnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stapostnumber != null" >
+        staPostNumber = #{stapostnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="stacharge != null" >
+        staCharge = #{stacharge,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        locked = #{locked,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where staId = #{staid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.luo.ssm.po.Staff" >
+    update staff
+    set deptId = #{deptid,jdbcType=INTEGER},
+      jobId = #{jobid,jdbcType=INTEGER},
+      staNumber = #{stanumber,jdbcType=VARCHAR},
+      staUserCode = #{stausercode,jdbcType=VARCHAR},
+      staPassword = #{stapassword,jdbcType=VARCHAR},
+      staName = #{staname,jdbcType=VARCHAR},
+      staTel = #{statel,jdbcType=VARCHAR},
+      staEmail = #{staemail,jdbcType=VARCHAR},
+      staPol = #{stapol,jdbcType=VARCHAR},
+      staEntryTime = #{staentrytime,jdbcType=DATE},
+      staSex = #{stasex,jdbcType=VARCHAR},
+      staHeadImage = #{staheadimage,jdbcType=VARCHAR},
+      staType = #{statype,jdbcType=VARCHAR},
+      staAddress = #{staaddress,jdbcType=VARCHAR},
+      staRemark = #{staremark,jdbcType=VARCHAR},
+      staBirthday = #{stabirthday,jdbcType=DATE},
+      staIdcard = #{staidcard,jdbcType=VARCHAR},
+      staEnduce = #{staenduce,jdbcType=VARCHAR},
+      staHabit = #{stahabit,jdbcType=VARCHAR},
+      staMajor = #{stamajor,jdbcType=VARCHAR},
+      staMarry = #{stamarry,jdbcType=VARCHAR},
+      staAge = #{staage,jdbcType=VARCHAR},
+      staEducation = #{staeducation,jdbcType=VARCHAR},
+      staComputer = #{stacomputer,jdbcType=VARCHAR},
+      staEnglish = #{staenglish,jdbcType=VARCHAR},
+      staWorker = #{staworker,jdbcType=VARCHAR},
+      staBankNumber = #{stabanknumber,jdbcType=VARCHAR},
+      staQqNumber = #{staqqnumber,jdbcType=VARCHAR},
+      staPostNumber = #{stapostnumber,jdbcType=VARCHAR},
+      staCharge = #{stacharge,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      locked = #{locked,jdbcType=VARCHAR}
+    where staId = #{staid,jdbcType=INTEGER}
+  </update>
+</mapper>

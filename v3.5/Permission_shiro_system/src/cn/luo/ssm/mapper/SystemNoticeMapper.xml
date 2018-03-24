@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.luo.ssm.mapper.SystemNoticeMapper" >
+
+	<sql id="select_notice">
+		 notice.staId = staff.`staId` 
+		  AND notice.`noticeId` = noticebulletins.`noticeId` AND dept.`deptId` = staff.`deptId` 
+		<if test="deptName != null">
+			AND dept.`deptName` like '%${deptName}%'
+		</if>
+		<if test="noticeType != null">
+			AND notice.`noticeType` like '%${noticeType}%'
+		</if>
+		<if test="noticeArea != null">
+			AND notice.`noticeArea` like '%${noticeArea}%'
+		</if>
+		<if test="noticeTitle != null">
+			AND notice.`noticeTitle` like '%${noticeTitle}%'
+		</if>
+		<if test="startTime != null  &amp;&amp;  endTime == null">
+			AND notice.`noticeTime`  &gt;= '${startTime}'
+		</if>
+		<if test="startTime == null &amp;&amp;  endTime != null">
+			AND notice.`noticeTime`   &lt;= '${endTime}'
+		</if>
+		<if test="startTime != null &amp;&amp;  endTime != null">
+			AND notice.`noticeTime`  &gt;= '${startTime}' AND notice.`noticeTime`   &lt;= '${endTime}'
+		</if>
+		
+	</sql>
+	<sql id="select_notice_type">
+		<if test="ntname != null">
+			AND noticetype.`ntname` like '%${ntname}%'
+		</if>
+		<if test="ntauthor != null">
+			AND noticetype.`ntauthor` like '%${ntauthor}%'
+		</if>
+		<if test="startTime != null  &amp;&amp;  endTime == null">
+			AND noticetype.`ntcreate`  &gt;= '${startTime}'
+		</if>
+		<if test="startTime == null &amp;&amp;  endTime != null">
+			AND noticetype.`ntcreate`   &lt;= '${endTime}'
+		</if>
+		<if test="startTime != null &amp;&amp;  endTime != null">
+			AND noticetype.`ntcreate`  &gt;= '${startTime}' AND noticetype.`ntcreate`   &lt;= '${endTime}'
+		</if>
+		
+	</sql>
+ 	<!-- 查询公告管理 -->
+ 	<select id="findAllNotice" parameterType="cn.luo.ssm.po.NoticeVO" resultType="cn.luo.ssm.po.NoticeVO">
+ 		SELECT  dept.`deptName`,staff.`staName`,
+		  notice.`noticeTitle`,notice.`noticeTime`,notice.`noticeType`,notice.`noticeArea`,
+		  notice.`noticeId`,noticebulletins.`BullType`,
+		  noticebulletins.`bullName`,noticebulletins.`bullId`,noticebulletins.`BullServerName`
+		FROM notice,staff, noticebulletins , dept
+		<where>
+			<include refid="select_notice"/>
+		</where>
+		<if test="sort != null">
+			ORDER BY  ${sort}  ${order}
+		</if>
+		
+ 	</select>
+ 	<!-- 查询所有有负责人部门信息 -->
+ 	<select id="findAllDepts" resultType="cn.luo.ssm.po.DeptVO">
+ 		SELECT dept.* ,staff.`staName`,staff.`staId`,staff.`staTel`FROM dept,staff WHERE dept.`deptId`=staff.`deptId` AND staff.`staCharge`='是'
+ 	</select>
+ 	<!-- 查询所有的部门信息 -->
+ 	<select id="findAllDeptNOChar" resultType="cn.luo.ssm.po.DeptVO">
+ 		SELECT * FROM dept
+ 	</select>
+ 	<!-- 查询每个部门的总人数 -->
+ 	<select id="findCountStaff" parameterType="String" resultType="int">
+ 		SELECT COUNT(* )FROM staff WHERE staff.`staNumber` LIKE '${_parameter}__'
+ 	</select>
+ 	<!-- 插入公告信息 -->
+ 	<insert id="insertNotice" parameterType="cn.luo.ssm.po.Notice" >
+ 		INSERT INTO notice (staId,noticeTitle, noticetime,noticeType, noticeAttachs,noticeArea)
+ 		VALUES
+ 		(#{staId},#{noticeTitle},#{noticetime},#{noticeType},#{noticeAttachs},#{noticeArea})
+ 	</insert>
+ 	<!-- 插入公告附件信息 -->
+ 	<insert id="insertNoticeBull" parameterType="cn.luo.ssm.po.Noticebulletins">
+ 		INSERT INTO noticebulletins (noticeId,bullcreate,bullName,BullType,BullServerName,bullsize)
+ 		VALUES
+ 		(#{noticeId},#{bullcreate},#{bullName},#{BullType},#{BullServerName},#{bullsize})
+ 	</insert>
+ 	<!-- 得到最新插入的公告信息 -->
+ 	<select id="getNoticeId" resultType="int">
+ 		SELECT notice.`noticeId` FROM notice ORDER BY notice.`noticeId` DESC LIMIT 1
+ 	</select>
+ 	<!-- 修改公告信息 -->
+ 	<update id="updateNotice" parameterType="cn.luo.ssm.po.Notice">
+ 		  update notice set noticeTitle=#{noticeTitle},noticeType=#{noticeType},noticeArea=#{noticeArea} where noticeId=#{noticeId}
+ 	</update>
+ 	<!-- 修改公告附件信息 -->
+ 	<update id="updateNoticeBull" parameterType="cn.luo.ssm.po.Noticebulletins">
+ 		update noticebulletins set bullName=#{bullName},BullType=#{BullType},BullServerName=#{BullServerName},bullsize=#{bullsize} where bullId=#{bullId}
+ 	</update>
+ 	<delete id="deleteNotice" parameterType="int">
+ 		  DELETE FROM notice WHERE notice.`noticeId` = #{noticeId}
+ 	</delete>
+ 	<delete id="deleteNoticeBull" parameterType="int">
+ 		  DELETE FROM noticebulletins WHERE noticeId = #{noticeId}
+ 	</delete>
+ 	<!-- 查询公告类型 -->
+ 	<select id="selectNoticeType" parameterType="cn.luo.ssm.po.Noticetype" resultType="cn.luo.ssm.po.Noticetype">
+ 		select * from noticetype
+ 		<where>
+			<include refid="select_notice_type"/>
+		</where>
+		<if test="sort != null">
+			ORDER BY  ${sort}  ${order}
+		</if>
+ 	</select>
+ 	<!-- 插入公告类型 -->
+ 	<insert id="insertNoticeType" parameterType="cn.luo.ssm.po.Noticetype">
+ 		INSERT INTO  noticetype (ntname,ntcreate,ntauthor)
+ 		values
+ 		(#{ntname},#{ntcreate},#{ntauthor})
+ 	</insert>
+ 	<!--  根据宫公告类型删除 -->
+ 	<delete id="deleteNoticeType" parameterType="int">
+ 		delete  from noticetype where ntid = #{ntid}
+ 	</delete>
+ 	<!-- 修改公告类型 -->
+ 	<update id="updateNoticeType" parameterType="cn.luo.ssm.po.Noticetype">
+ 		update noticetype set ntname=#{ntname} where ntid = #{ntid}
+ 	</update>
+ 	<!-- 公告查看 -->
+ 	<select id="selectNoticeToShow" parameterType="cn.luo.ssm.po.Notice" resultType="cn.luo.ssm.po.NoticeVO">
+ 		    SELECT 
+                staff.`staName`,
+		  notice.`noticeTitle`,notice.`noticeTime`,notice.`noticeType`,notice.`noticeArea`,
+		  notice.`noticeId`,noticebulletins.`BullType`,
+		  noticebulletins.`bullName`,noticebulletins.`bullId`,noticebulletins.`BullServerName`
+		FROM notice INNER JOIN noticebulletins ON notice.`noticeId` = noticebulletins.`noticeId`
+		INNER JOIN staff ON notice.staId = staff.`staId`
+		<where>
+			<include refid="select_notice_toshow"/>
+		</where>
+		<if test="sort != null">
+			ORDER BY  ${sort}  ${order}
+		</if>
+ 	</select>
+ 	<sql id="select_notice_toshow">
+		 noticeArea ='全体员工' OR noticeArea =#{noticeArea}
+		<if test="noticeType != null">
+			AND notice.`noticeType` like '%${noticeType}%'
+		</if>
+		<if test="noticeTitle != null">
+			AND notice.`noticeTitle` like '%${noticeTitle}%'
+		</if>
+		<if test="startTime != null  &amp;&amp;  endTime == null">
+			AND notice.`noticeTime`  &gt;= '${startTime}'
+		</if>
+		<if test="startTime == null &amp;&amp;  endTime != null">
+			AND notice.`noticeTime`   &lt;= '${endTime}'
+		</if>
+		<if test="startTime != null &amp;&amp;  endTime != null">
+			AND notice.`noticeTime`  &gt;= '${startTime}' AND notice.`noticeTime`   &lt;= '${endTime}'
+		</if>
+		
+	</sql>
+	<!-- 根据部门id获取部门信息 -->
+	<select id="selectDeptNameBydeptid" parameterType="int" resultType="String">
+		select deptName from dept where deptId = #{0}
+	</select>
+	<!-- 根据用户id获取部门id -->
+	<select id="selectDepIdByUserId" parameterType="int" resultType="int">
+		select deptId from staff where staId = #{0}
+	</select>
+	
+	
+	
+	
+</mapper>

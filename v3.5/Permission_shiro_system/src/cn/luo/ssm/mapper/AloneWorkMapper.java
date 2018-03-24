@@ -1,0 +1,32 @@
+package cn.luo.ssm.mapper;
+
+import java.util.List;
+
+import cn.luo.ssm.po.Alonework;
+import cn.luo.ssm.po.Staff;
+
+/**
+ * 待办事项查看页面
+ *<p>Title:AloneWorkMapper </p>
+ * <p>Description: </p>
+ * <p>Company:康佳集团有限责任公司 </p> 
+ * @author :罗康元
+ * @date2017-4-4
+ */
+public interface AloneWorkMapper {
+	
+	//查询对应员工的待办事项
+	public List<Alonework> selectAllAloneWork(Alonework alonework)throws Exception;
+	//添加事项
+	public void insertTodoWork(Alonework alonework) throws Exception;
+	//根据事项主键修改事项
+	public void updateTodpWorkById(Alonework alonework)throws Exception;
+	//删除事项
+	public void deleteTodoWorkByID(int tid)throws Exception;
+	//事项管理的查询
+	public List<Alonework> sekectSysManagAloneWork(Staff staff)throws Exception;
+	//根据用户id查询用户的员工编号
+	public String findStaNumberByStaid(int stid)throws Exception;
+	//查询下属员工信息
+	public List<Staff> findStaByStaid(Staff staff)throws Exception;
+}

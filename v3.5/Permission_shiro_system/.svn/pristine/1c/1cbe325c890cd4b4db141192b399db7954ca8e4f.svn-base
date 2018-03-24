@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.luo.ssm.mapper.CalendarMapper" >
+	<!-- 待办事项 -->
+	<!-- 查询员工的待办事项和按条件检索事项 -->
+	<select id="selectAllCalendar" parameterType="cn.luo.ssm.po.Calendars" resultType="cn.luo.ssm.po.Calendars">
+		select * from calendars 
+		<where>
+			<include refid="select_calendarslist_toshow"/>
+		</where>
+		<if test="sort != null">
+			ORDER BY  ${sort}  ${order}
+		</if>
+	</select>
+	<sql id="select_calendarslist_toshow">
+		<if test="staId != null">
+			AND calendars.`staId` = '${staId}'
+		</if>
+		<if test="calendaType != null">
+			AND calendars.`calendaType` = '${calendaType}'
+		</if>
+		<if test="calendaOne != null">
+			AND calendars.`calendaOne` = '${calendaOne}'
+		</if>
+		<if test="calendaName != null">
+			AND calendars.`calendaName` like '%${calendaName}%'
+		</if>
+		<if test="calendaContent != null">
+			AND calendars.`calendaContent` like '%${calendaContent}%'
+		</if>
+		<if test="calendaRemark != null">
+			AND calendars.`calendaRemark` like '%${calendaRemark}%'
+		</if>
+		<if test="startTime != null  &amp;&amp;  endTime == null">
+			AND calendars.`calendaCreate`  &gt;= '${startTime}'
+		</if>
+		<if test="startTime == null &amp;&amp;  endTime != null">
+			AND calendars.`calendaCreate`   &lt;= '${endTime}'
+		</if>
+		<if test="startTime != null &amp;&amp;  endTime != null">
+			AND calendars.`calendaCreate`  &gt;= '${startTime}' AND calendars.`calendaCreate`   &lt;= '${endTime}'
+		</if>
+	</sql>
+	<!-- 添加事项 -->
+	<!-- <insert id="insertTodoWork" parameterType="cn.luo.ssm.po.Alonework">
+		INSERT INTO calendars (staId,todoTitle, todoContent,todoCreate,todoType,todoimpor,todoFile,todoServerName,createAuthor)
+		values
+		(#{staId},#{todoTitle}, #{todoContent},#{todoCreate},#{todoType},#{todoimpor},#{todoFile},#{todoServerName},#{createAuthor})
+	</insert>
+	修改事项
+	<update id="updateTodpWorkById" parameterType="cn.luo.ssm.po.Alonework">
+		update calendars set staId=#{staId},todoTitle=#{todoTitle},todoContent=#{todoContent}
+		,todoimpor=#{todoimpor} 
+		<if test="todoFile != null">
+			,todoFile=#{todoFile},todoServerName=#{todoServerName}
+		</if>
+		where todoId = #{todoId}
+	</update>
+	删除事项
+	<delete id="deleteTodoWorkByID" parameterType="int">
+		delete  from calendars where todoId = #{todoId}
+	</delete>
+	
+	<select id="sekectSysManagAloneWork" parameterType="cn.luo.ssm.po.Staff" resultType="cn.luo.ssm.po.Alonework">
+		 SELECT 
+		  * 
+		FROM
+		 calendars
+		WHERE  staId IN 
+		  (SELECT 
+		    staId
+		  FROM
+		   staff
+		  WHERE stanumber LIKE '${stanumber}%'
+		   )
+	</select>
+	<select id="findStaNumberByStaid" parameterType="int" resultType="String">
+		SELECT stanumber FROM staff WHERE staId = #{staId}
+	</select>
+	根据当前登录的用户查询所有的下属信息
+	<select id="findStaByStaid" parameterType="cn.luo.ssm.po.Staff" resultType="cn.luo.ssm.po.Staff">
+		select * from  staff WHERE stanumber LIKE '${stanumber}%'
+	</select> -->
+</mapper>

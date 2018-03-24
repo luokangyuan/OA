@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.luo.ssm.mapper.SysPermissionMapperCustom" >
+  
+  
+  <!-- 根据用户id查询url -->
+  <select id="findPermissionListByUserId" parameterType="Integer" resultType="cn.luo.ssm.po.Syspermission">
+	 SELECT 
+	  * 
+	FROM
+	 sysPermission 
+	WHERE perType = 'menus' 
+	  AND perId IN 
+	  (SELECT 
+	    perId
+	  FROM
+	    roletoper
+	  WHERE roleId IN 
+	    (SELECT 
+	      roleId 
+	    FROM
+	      strtorole
+	    WHERE staId = #{id}))
+  </select>
+  
+   <!-- 根据用户id查询菜单 -->
+  <select id="findMenuListByUserId"  parameterType="Integer" resultType="cn.luo.ssm.po.Syspermission">
+  		SELECT 
+	  * 
+	FROM
+	 sysPermission  
+	WHERE perType = 'menus' 
+	  AND perId IN 
+	  (SELECT 
+	    perId 
+	  FROM
+	    roletoper 
+	  WHERE roleId IN 
+	    (SELECT 
+	      roleId  
+	    FROM
+	       strtorole 
+	    WHERE  staId = #{id}))
+  </select>
+  
+  <!-- 根据用户id和一级菜单id出巡二级菜单 -->
+  
+  <select id="findSeMenuListByUserIdAndMenuId"  parameterType="Integer" resultType="cn.luo.ssm.po.Syspermission">
+  		 	SELECT 
+	  * 
+	FROM
+	 sysPermission  
+	WHERE perType = 'menu' AND perParentid =#{0}
+	  AND perId IN 
+	  (SELECT 
+	    perId 
+	  FROM
+	    roletoper 
+	  WHERE roleId IN 
+	    (SELECT 
+	      roleId  
+	    FROM
+	       strtorole 
+	    WHERE  staId = #{1}))
+  </select>
+  
+</mapper>

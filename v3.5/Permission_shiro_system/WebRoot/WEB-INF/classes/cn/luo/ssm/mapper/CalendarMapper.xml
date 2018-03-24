@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.luo.ssm.mapper.CalendarMapper" >
+	<sql id="select_mycalendarslist_toshow">
+		<if test="staId != null">
+			AND calendars.`staId` = '${staId}'
+		</if>
+		<if test="calendaType != null">
+			AND calendars.`calendaType` = '${calendaType}'
+		</if>
+		<if test="calendaOne != null">
+			AND calendars.`calendaOne` = '${calendaOne}'
+		</if>
+		<if test="calendaName != null">
+			AND calendars.`calendaName` like '%${calendaName}%'
+		</if>
+		<if test="calendaContent != null">
+			AND calendars.`calendaContent` like '%${calendaContent}%'
+		</if>
+		<if test="calendaRemark != null">
+			AND calendars.`calendaRemark` like '%${calendaRemark}%'
+		</if>
+		<if test="startTime != null  &amp;&amp;  endTime == null">
+			AND calendars.`calendaCreate`  &gt;= '${startTime}'
+		</if>
+		<if test="startTime == null &amp;&amp;  endTime != null">
+			AND calendars.`calendaCreate`   &lt;= '${endTime}'
+		</if>
+		<if test="startTime != null &amp;&amp;  endTime != null">
+			AND calendars.`calendaCreate`  &gt;= '${startTime}' AND calendars.`calendaCreate`   &lt;= '${endTime}'
+		</if>
+	</sql>
+	<!-- 待办事项 -->
+	<!-- 查询员工的待办事项和按条件检索事项 -->
+	<select id="selectAllCalendar" parameterType="cn.luo.ssm.po.Calendars" resultType="cn.luo.ssm.po.Calendars">
+		select * from calendars 
+		<where>
+			<include refid="select_mycalendarslist_toshow"/>
+		</where>
+		<if test="sort != null">
+			ORDER BY  ${sort}  ${order}
+		</if>
+	</select>
+	
+	<!-- 添加事项 -->
+	<insert id="insertMyCalendars" parameterType="cn.luo.ssm.po.Calendars">
+		INSERT INTO calendars (staId,calendaName, calendaContent,calendaRemark,calendaType,calendaStartTime,calendaEndTime,calendaOne,calendaCreate,calendaFile,createAuthor,calendServerName)
+		values
+		(#{staId},#{calendaName}, #{calendaContent},#{calendaRemark},#{calendaType},#{calendaStartTime},#{calendaEndTime},#{calendaOne},#{calendaCreate},#{calendaFile},#{createAuthor},#{calendServerName})
+	</insert>
+	<!-- 修改事项 -->
+	<update id="updateCalendarsById" parameterType="cn.luo.ssm.po.Calendars">
+		update calendars set staId=#{staId},calendaName=#{calendaName},calendaContent=#{calendaContent}
+		,calendaRemark=#{calendaRemark}
+		,calendaStartTime=#{calendaStartTime}
+		,calendaEndTime=#{calendaEndTime}
+		,calendaType=#{calendaType}
+		,calendaOne=#{calendaOne} 
+		<if test="calendaFile != null">
+			,calendaFile=#{calendaFile},calendServerName=#{calendServerName}
+		</if>
+		where calendarId = #{calendarId}
+	</update>
+	<!-- 删除事项 -->
+	<delete id="deleteCalendarsByID" parameterType="int">
+		delete  from calendars where calendarId = #{calendarId}
+	</delete>
+	
+	<select id="sekectSysManagCalendars" parameterType="cn.luo.ssm.po.Calendars" resultType="cn.luo.ssm.po.Calendars">
+		 SELECT 
+		  * 
+		FROM
+		 calendars
+		WHERE  staId IN 
+		  (SELECT 
+		    staId
+		  FROM
+		   staff
+		  WHERE stanumber LIKE '${stanumber}%'
+		   )
+	</select>
+
+</mapper>

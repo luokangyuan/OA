@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.luo.ssm.mapper.SystemDeptMapper" >
+	<!--  插入部门信息 -->
+	<insert id="insertDept" parameterType="cn.luo.ssm.po.DeptVO">
+		INSERT INTO dept (deptNumber,deptName,deptRemark,deptCreate)values
+		(#{deptNumber},#{deptName},#{deptRemark},#{deptCreate})
+	</insert>
+	<!-- 根据部门查询所有的员工 -->
+	<select id="findAllStaffByDept" parameterType="int" resultType="cn.luo.ssm.po.Staff">
+		SELECT * FROM staff  WHERE deptId = #{0}
+	</select>
+	<!-- 根据部门id修改部门信息 -->
+	<update id="updateDeptInfo" parameterType="cn.luo.ssm.po.DeptVO">
+		UPDATE dept SET deptName=#{deptName}, deptRemark = #{deptRemark} where deptId = #{deptId}
+	</update>
+	<!--  根据部门主键将部门所有员工的负责人统一为否， -->
+	<update id="updateDeptNoChart" parameterType="int">
+		UPDATE staff SET staCharge = '否' WHERE  deptId = #{0}
+	</update>
+	<!--  根据员工主键将该员工修改为负责人 -->
+	<update id="updatDdeptChart" parameterType="int">
+		UPDATE staff SET staCharge = '是' WHERE  staId = #{0}
+	</update>
+	<!-- 根据部门主键id删除部门 -->
+	<delete id="deleteDept" parameterType="int">
+		delete from dept where deptId = #{0}
+	</delete>
+</mapper>

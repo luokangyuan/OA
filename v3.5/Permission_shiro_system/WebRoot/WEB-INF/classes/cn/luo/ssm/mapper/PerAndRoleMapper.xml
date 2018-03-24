@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.luo.ssm.mapper.PerAndRoleMapper" >
+	<select id="selectAllRole" resultType="cn.luo.ssm.po.Sysrole">
+		SELECT * FROM sysrole
+	</select>
+	<select id="selectPerByRoleId" resultType="cn.luo.ssm.po.Syspermission">
+		SELECT * FROM syspermission,roletoper WHERE syspermission.`perId` = roletoper.`perId` AND roletoper.`roleId`=#{0}
+	</select>
+	<select id="selectChilderByPid" resultType="cn.luo.ssm.po.Syspermission">
+		SELECT * FROM syspermission WHERE syspermission.`perParentid`=#{0}
+	</select>
+</mapper>
